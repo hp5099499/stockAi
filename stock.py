@@ -22,7 +22,7 @@ logout_page=st.Page(logout,title="Log out",icon=":material/logout:")
 # logout_page=st.Page("loginpage.py",title="Profile",icon=":material/person:")
 settings=st.Page("setting.py",title="Settings",icon=":material/settings:")
 request_1=st.Page(
-    "DashBoard.py",
+    "dashboard.py",
     title="Dashboard",icon="🛃",
         default=(role=="Requester")
         )
