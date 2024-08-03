@@ -5,5 +5,7 @@ pandas
 numpy
 matplotlib
 plotly
-tensorflow
 scikit-learn
+--upgrade pip
+--upgrade setuptools
+--upgrade tensorflow
