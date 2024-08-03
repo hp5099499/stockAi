@@ -19,28 +19,28 @@ def logout():
 
 role=st.session_state.role
 logout_page=st.Page(logout,title="Log out",icon=":material/logout:")
-# logout_page=st.Page("request/loginpage.py",title="Profile",icon=":material/person:")
+# logout_page=st.Page("loginpage.py",title="Profile",icon=":material/person:")
 settings=st.Page("setting.py",title="Settings",icon=":material/settings:")
 request_1=st.Page(
-    "request/DashBoard.py",
+    "DashBoard.py",
     title="Dashboard",icon="🛃",
         default=(role=="Requester")
         )
 request_2=st.Page(
-    "request/Aboutpage.py",
+    "Aboutpage.py",
     title="About",icon="📃"
     )
 request_3=st.Page(
-    "request/Homepage.py",
+    "Homepage.py",
     title="Stock Dashboard",
     icon="🏠")
 
 request_4=st.Page(
-    "request/loginpage.py",
+    "loginpage.py",
     title="Account",icon="🔐"
     )
 request_5=st.Page(
-    "request/analyses.py",
+    "analyses.py",
     title="Analyses",
     icon="🏷️")
 account_pages=[logout_page,settings]
