@@ -6,6 +6,5 @@ numpy
 matplotlib
 plotly
 scikit-learn
---upgrade pip
---upgrade setuptools
---upgrade tensorflow
+setuptools
+tensorflow
