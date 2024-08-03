@@ -47,7 +47,7 @@ account_pages=[logout_page,settings]
 request_pages=[request_1,request_2,request_3,request_4,request_5]
 
 st.title("StockAI")
-st.logo("designer.png", icon_image="stock.png")
+# st.logo("designer.png", icon_image="stock.png")
 
 page_dict={}
 if st.session_state.role in ["Requester"]:
