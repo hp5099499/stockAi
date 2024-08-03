@@ -57,4 +57,4 @@ if len(page_dict)>0:
     pg=st.navigation({"Account":account_pages}|page_dict)
 else:
     pg=st.navigation([st.Page(login)])
-pg.run()
+    pg.run()
