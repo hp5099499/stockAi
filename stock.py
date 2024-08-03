@@ -1,0 +1,60 @@
+import streamlit as st
+
+
+if "role" not in st.session_state:
+    st.session_state.role=None
+Roles=[None,"Requester","Responder","Admin"]
+
+def login():
+    st.header("Login")
+    role=st.selectbox("Choose your role",Roles)
+
+    if st.button("Login"):
+        st.session_state.role=role
+        st.rerun()
+
+def logout():
+    st.session_state.role=None
+    st.rerun()
+
+role=st.session_state.role
+logout_page=st.Page(logout,title="Log out",icon=":material/logout:")
+# logout_page=st.Page("request/loginpage.py",title="Profile",icon=":material/person:")
+settings=st.Page("setting.py",title="Settings",icon=":material/settings:")
+request_1=st.Page(
+    "request/DashBoard.py",
+    title="Dashboard",icon="🛃",
+        default=(role=="Requester")
+        )
+request_2=st.Page(
+    "request/Aboutpage.py",
+    title="About",icon="📃"
+    )
+request_3=st.Page(
+    "request/Homepage.py",
+    title="Stock Dashboard",
+    icon="🏠")
+
+request_4=st.Page(
+    "request/loginpage.py",
+    title="Account",icon="🔐"
+    )
+request_5=st.Page(
+    "request/analyses.py",
+    title="Analyses",
+    icon="🏷️")
+account_pages=[logout_page,settings]
+request_pages=[request_1,request_2,request_3,request_4,request_5]
+
+st.title("StockAI")
+st.logo("images/designer.png", icon_image="images/stock.png")
+
+page_dict={}
+if st.session_state.role in ["Requester"]:
+    page_dict["Request"]=request_pages
+
+if len(page_dict)>0:
+    pg=st.navigation({"Account":account_pages}|page_dict)
+else:
+    pg=st.navigation([st.Page(login)])
+pg.run()
