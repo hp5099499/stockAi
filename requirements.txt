@@ -1,0 +1,10 @@
+streamlit
+yfinance
+stocknews
+pandas 
+numpy
+matplotlib
+plotly
+tensorflow
+sklearn
+math
