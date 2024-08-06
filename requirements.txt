@@ -8,3 +8,5 @@ plotly
 scikit-learn
 setuptools
 tensorflow
+ta
+xgboost
