@@ -10,3 +10,4 @@ setuptools
 tensorflow
 ta
 xgboost
+pyngrok
