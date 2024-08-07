@@ -1,5 +1,5 @@
 import streamlit as st
-st.header("Profile")
+st.subheader("Profile")
 # import firebase_admin
 
 # from firebase_admin import credentials
