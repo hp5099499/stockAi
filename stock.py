@@ -40,7 +40,7 @@ request_4=st.Page(
     title="Account",icon="🔐"
     )
 request_5=st.Page(
-    "analyses.py",
+    "https://predictre.streamlit.app",
     title="Analysis",
     icon="🏷️")
 account_pages=[logout_page,settings]
