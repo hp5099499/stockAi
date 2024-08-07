@@ -6,8 +6,6 @@ numpy
 matplotlib
 plotly
 scikit-learn
-setuptools
-tensorflow
 ta
 xgboost
 pyngrok
