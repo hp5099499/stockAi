@@ -20,7 +20,7 @@ def main():
         tech_indicators()
     elif option == 'Recent Data':
         update_data_and_plot()
-        st.markdown("[more...](charts.py)")
+        # st.markdown("[more...](https://predictre.streamlit.app)")
 
     elif option == 'Predict':
         predict()
