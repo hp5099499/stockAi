@@ -20,7 +20,7 @@ def main():
         tech_indicators()
     elif option == 'Recent Data':
         update_data_and_plot()
-        st.markdown("[more...](./settings.py)")
+        st.markdown("[more...](./setting.py)")
 
     elif option == 'Predict':
         predict()
