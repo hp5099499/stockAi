@@ -12,7 +12,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_absolute_error
 import time
 
-st.title('Stock Price Predictions')
+st.subheader('Stock Price Predictions')
 
 def main():
     option = st.sidebar.selectbox('Make a choice', ['Visualize', 'Recent Data', 'Predict'])
@@ -20,7 +20,7 @@ def main():
         tech_indicators()
     elif option == 'Recent Data':
         update_data_and_plot()
-        st.markdown("[more...](./setting.py)")
+        st.markdown("[more...](charts.py.py)")
 
     elif option == 'Predict':
         predict()
