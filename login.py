@@ -1,78 +1,141 @@
-# import firebase_admin
+import streamlit as st
+import pandas as pd
+import os
+import hashlib
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import uuid
 
-# from firebase_admin import credentials
-# from firebase_admin import auth
+# File to store user credentials
+user_data_FILE = 'user_data.csv'
+EMAIL_VERIFICATION_FILE = 'email_verification.csv'
 
-# try:
-#     firebase_admin.get_app()
-# except ValueError:
-#     cred = credentials.Certificate('services-7b5c8-f7bf4c632563.json')
-#     firebase_admin.initialize_app(cred)
+# Create files if they do not exist
+if not os.path.exists(user_data_FILE):
+    pd.DataFrame(columns=['username', 'email', 'password', 'verified']).to_csv(user_data_FILE, index=False)
 
-# def app():
-#     st.title('Welcome to :violet[Services] 😎')
+if not os.path.exists(EMAIL_VERIFICATION_FILE):
+    pd.DataFrame(columns=['email', 'token']).to_csv(EMAIL_VERIFICATION_FILE, index=False)
 
-#     # choice = st.selectbox('Login/Signup', ['Login', 'Sign Up'])
-#     # choice = st.selectbox('What would you like to do', ['Login', 'Sign Up'], index=None, placeholder="Select Sign Up if you want to register")
+def hash_password(password):
+    """Hash a password with SHA-256."""
+    return hashlib.sha256(password.encode()).hexdigest()
 
-#     if 'username' not in st.session_state:
-#         st.session_state.username = ''
-#     if 'useremail' not in st.session_state:
-#         st.session_state.useremail = ''
+def send_verification_email(email, token):
+    """Send an email with a verification link."""
+    sender_email = "mohitkmourya@gmail.com" 
+    sender_password = "gavo mgvo eqyf joke"
+    subject = "Email Verification"
+    body = f"Please verify your email by clicking the following link:\nhttp://localhost:8501/verify?token={token}"
+    message = MIMEMultipart()
+    message['From'] = sender_email
+    message['To'] = email
+    message['Subject'] = subject
+    message.attach(MIMEText(body, 'plain'))
+    try:
+        server = smtplib.SMTP('smtp.gmail.com', 587)  # Use the correct SMTP server and port
+        server.starttls()
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, email, message.as_string())
+        server.quit()
+        st.success("Verification email sent! Please check your inbox.")
+    except Exception as e:
+        st.error(f"Error sending email: {e}")
 
-#     def f():
-#         try:
-#             user = auth.get_user_by_email(email)
-#             st.success('Login Successful')
-#             st.session_state.username = user.uid
-#             st.session_state.useremail = user.email
+def load_user_data():
+    if os.path.exists(user_data_FILE):
+        return pd.read_csv(user_data_FILE)
+    else:
+        return pd.DataFrame(columns=['username', 'email', 'password', 'verified'])
 
-#             st.session_state.signedout = True
-#             st.session_state.signout = True
+def save_user_data(user_data):
+    user_data.to_csv(user_data_FILE, index=False)
 
-#         except:
-#             st.warning('Login Failed')
+def load_verification_data():
+    if os.path.exists(EMAIL_VERIFICATION_FILE):
+        return pd.read_csv(EMAIL_VERIFICATION_FILE)
+    else:
+        return pd.DataFrame(columns=['email', 'token'])
 
-#     def t():
-#         st.session_state.signout = False
-#         st.session_state.signedout = False
-#         st.session_state.username = ''
+def save_verification_data(verification_data):
+    verification_data.to_csv(EMAIL_VERIFICATION_FILE, index=False)
 
-#     if 'signedout' not in st.session_state:
-#         st.session_state.signedout = False
-#     if 'signout' not in st.session_state:
-#         st.session_state.signout = False
+def signup():
+    st.subheader("Sign Up")
+    email = st.text_input("Email")
+    username = st.text_input("Username")
+    password = st.text_input("Password", type='password')
+    confirm_password = st.text_input("Confirm Password", type='password')
+    if st.button("Sign Up"):
+        if password != confirm_password:
+            st.error("Passwords do not match!")
+            return
+        user_data = load_user_data()
+        if username in user_data['username'].values:
+            st.error("Username already exists!")
+        elif email in user_data['email'].values:
+            st.error("Email already registered!")
+        else:
+            token = str(uuid.uuid4())
+            new_user = pd.DataFrame([{'username': username, 'email': email, 'password': hash_password(password), 'verified': False}])
+            user_data = pd.concat([user_data, new_user], ignore_index=True)
+            save_user_data(user_data)
+            verification_data = load_verification_data()
+            new_verification = pd.DataFrame([{'email': email, 'token': token}])
+            verification_data = pd.concat([verification_data, new_verification], ignore_index=True)
+            save_verification_data(verification_data)
+            send_verification_email(email, token)
 
-#     if not st.session_state['signedout']:
-#         choice = st.selectbox('Login/Signup', ['Login', 'Sign Up'])
-    
+def verify_email(token):
+    verification_data = load_verification_data()
+    if token in verification_data['token'].values:
+        email = verification_data[verification_data['token'] == token]['email'].values[0]
+        user_data = load_user_data()
+        if email in user_data['email'].values:
+            user_data.loc[user_data['email'] == email, 'verified'] = True
+            save_user_data(user_data)
+            verification_data = verification_data[verification_data['token'] != token]
+            save_verification_data(verification_data)
+            st.success("Email verified successfully! You can now log in.")
+    else:
+        st.error("Invalid or expired verification token.")
 
-#         if choice =='Login':
+def login():
+    st.subheader("Log In")
 
-#             email= st.text_input('Email Address')
-#             password = st.text_input('Password', type='password')
+    email = st.text_input("Email")
+    password = st.text_input("Password", type='password')
 
-#             st.button('Login', on_click=f)
+    if st.button("Log In"):
+        user_data = load_user_data()
+        
+        if email not in user_data['email'].values:
+            st.error("Email does not exist!")
+        else:
+            user_row = user_data[user_data['email'] == email]
+            if user_row.empty:
+                st.error("Email does not exist!")
+            else:
+                if user_row['password'].values[0] != hash_password(password):
+                    st.error("Incorrect password!")
+                elif not user_row['verified'].values[0]:
+                    st.error("Email not verified. Please check your email for the verification link.")
+                else:
+                    st.success("Logged in successfully!")
 
-#             # st.button('Login')
+def main():
+    st.title("Login and Signup System")
 
-#         else:
+    choice = st.sidebar.selectbox("Select a page", ["Login", "Sign Up"])
 
-#             email= st.text_input('Email Address')
-#             password = st.text_input('Password', type='password')
+    if choice == "Sign Up":
+        signup()
+    else:
+        login()
 
-#             username = st.text_input('Enter your unique username')
-
-#             if st.button('Create My Account'):
-#                 user = auth.create_user(email = email, password = password, uid = username)
-
-#                 st.success('Account created successfully!')
-#                 st.markdown('Please Login using your email and password')
-#                 st.balloons()
-
-#     if st.session_state.signout:
-#         st.text('Name' + st.session_state.username)
-#         st.text('Email id: ' + st.session_state.useremail)
-#         st.button('Sign out', on_click=t)
-
-#         # st.write("You selected:", choice)
+if __name__ == "__main__":
+    # Uncomment for testing email functionality
+    # token = str(uuid.uuid4())
+    # send_verification_email("your_test_email@gmail.com", token)
+    main()
