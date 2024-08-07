@@ -39,8 +39,8 @@ request_4=st.Page(
     "loginpage.py",
     title="Account",icon="🔐"
     )
-request_5=st.markdown(
-    "https://predictre.streamlit.app",
+request_5=st.Page(
+    "analyses.py",
     title="Analysis",
     icon="🏷️")
 account_pages=[logout_page,settings]
