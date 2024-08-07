@@ -41,7 +41,7 @@ request_4=st.Page(
     )
 request_5=st.Page(
     "analyses.py",
-    title="Analyses",
+    title="Analysis",
     icon="🏷️")
 account_pages=[logout_page,settings]
 request_pages=[request_1,request_2,request_3,request_4,request_5]
