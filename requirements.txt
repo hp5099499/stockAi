@@ -9,3 +9,12 @@ scikit-learn
 ta
 xgboost
 pyngrok
+streamlit_navigation_bar
+hashlib
+smtplib
+email.mime.text import
+email.mime.multipart 
+os
+uuid
+csv, json
+datetime 
