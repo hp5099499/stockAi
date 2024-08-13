@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 # Define CSS classes
 css = """
