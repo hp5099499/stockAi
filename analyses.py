@@ -166,7 +166,7 @@ def update_data_and_plot():
             st.session_state.auto_update = False
             st.session_state.update_stopped = True
 
-         if st.session_state.auto_update:
+        if st.session_state.auto_update:
              update_data_and_plot()
              time.sleep(15)
              if st.session_state.auto_update:  # Ensure re-run only when auto-update is True
