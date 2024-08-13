@@ -1,5 +1,5 @@
 import streamlit as st
-from streamlit_navigation_bar import st_navigation_bar
+from streamlit_navigation_bar import st_navbar
 
 # Import page modules
 import dashboard
@@ -44,7 +44,7 @@ def main():
         ]
 
         # Create navigation bar
-        selection = st_navigation_bar(pages=nav_pages)
+        selection = st_navbar(pages=nav_pages)
         st.write(f"Selection: {selection}")  # Debugging line
 
         # Handle the selection
