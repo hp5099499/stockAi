@@ -12,11 +12,11 @@ def login():
 
     if st.button("Login"):
         st.session_state.role = role
-        st.experimental_rerun()
+        st.rerun()
 
 def logout():
     st.session_state.role = None
-    st.experimental_rerun()
+    st.rerun()
 
 def main():
     if st.session_state.role is None:
