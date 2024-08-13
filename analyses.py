@@ -232,5 +232,5 @@ def model_engine(num):
 
     st.line_chart(combined_df)
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
