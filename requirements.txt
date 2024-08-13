@@ -10,3 +10,4 @@ ta
 xgboost
 pyngrok
 
+streamlit_navigation_bar
