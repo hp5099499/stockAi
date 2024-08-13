@@ -1,4 +1,5 @@
 import streamlit as st
+from analysis import run_analysis  # Import the analysis component
 
 
 if "role" not in st.session_state:
