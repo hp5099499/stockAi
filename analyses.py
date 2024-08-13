@@ -12,8 +12,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_absolute_error
 import time
 
-def run_analysis():
-    st.subheader('Stock Price Predictions')
+
+st.subheader('Stock Price Predictions')
 
 def main():
     option = st.sidebar.selectbox('Make a choice', ['Visualize', 'Recent Data', 'Predict'])
