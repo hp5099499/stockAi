@@ -1,5 +1,13 @@
 import streamlit as st
-from streamlit_navigation_bar import st_navbar
+from streamlit_navigation_bar import st_navigation_bar
+
+# Import page modules
+import dashboard
+import Aboutpage
+import Homepage
+import loginpage
+import analyses
+import setting
 
 if "role" not in st.session_state:
     st.session_state.role = None
@@ -12,11 +20,11 @@ def login():
 
     if st.button("Login"):
         st.session_state.role = role
-        st.rerun()
+        st.experimental_rerun()
 
 def logout():
     st.session_state.role = None
-    st.rerun()
+    st.experimental_rerun()
 
 def main():
     if st.session_state.role is None:
@@ -26,27 +34,40 @@ def main():
 
         # Define the navigation pages
         nav_pages = [
-            "dashboard.py",
-            "Aboutpage.py",
-            "Homepage.py",
-            "loginpage.py",
-            "analyses.py",
-            "setting.py",
-            "logout"
+            "Dashboard",
+            "About",
+            "Home",
+            "Account",
+            "Analysis",
+            "Settings",
+            "Logout"
         ]
 
         # Create navigation bar
-        selection = st_navbar(pages=nav_pages)
+        selection = st_navigation_bar(pages=nav_pages)
+        st.write(f"Selection: {selection}")  # Debugging line
 
         # Handle the selection
-        if selection == "logout":
+        if selection == "Logout":
             logout()
-        else:
-            page = selection
-            if page:
-                with open(page) as f:
-                    exec(f.read())
+        elif selection == "Dashboard":
+            st.write("Rendering Dashboard")  # Debugging line
+            dashboard.render()
+        elif selection == "About":
+            st.write("Rendering About Page")  # Debugging line
+            Aboutpage.render()
+        elif selection == "Home":
+            st.write("Rendering Home Page")  # Debugging line
+            Homepage.render()
+        elif selection == "Account":
+            st.write("Rendering Login Page")  # Debugging line
+            loginpage.render()
+        elif selection == "Analysis":
+            st.write("Rendering Analysis Page")  # Debugging line
+            analyses.render()
+        elif selection == "Settings":
+            st.write("Rendering Settings Page")  # Debugging line
+            setting.render()
 
 if __name__ == "__main__":
     main()
-
