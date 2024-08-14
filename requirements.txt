@@ -9,5 +9,5 @@ scikit-learn
 ta
 xgboost
 pyngrok
-
+stocknews
 streamlit_navigation_bar
