@@ -7,7 +7,6 @@ matplotlib
 plotly
 scikit-learn
 ta
-linear_regression
 xgboost
 pyngrok
 stocknews
