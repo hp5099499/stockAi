@@ -1,4 +1,12 @@
-pip install -r requirements.txt
+# reset_password
+Reset password application in streamlit 
 
 
-streamlit run stock.py
+
+![Reset Password](reset.png)
+
+
+
+## Below is the url for hosting link
+
+[Reset Password Website Link](https://resetpassword-c4qtkqjpgdnzx4xtttbtnk.streamlit.app/reset_password)
